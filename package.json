@@ -19,7 +19,9 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "botbuilder": "^3.8.4",
-    "express": "^4.15.3",
-    "restify": "^5.0.1"
+    "bson": "^1.0.4",
+    "mongoose": "4.1.10",
+    "restify": "^5.0.1",
+    "restify-plugins": "^1.6.0"
   }
 }
