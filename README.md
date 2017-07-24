@@ -26,4 +26,6 @@ node app.js
 
 * Test the bot by typing a message in the chat window inside the emulator, the bot should repeat the message.
 
+* test
+
 (Source - https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-quickstart)
