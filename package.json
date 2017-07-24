@@ -1,0 +1,23 @@
+{
+  "name": "ideapier",
+  "version": "1.0.0",
+  "description": "Project for Microsoft OneWeek Hackathon 2017",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samarthmshah/IdeaPier.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samarthmshah/IdeaPier/issues"
+  },
+  "homepage": "https://github.com/samarthmshah/IdeaPier#readme",
+  "dependencies": {
+    "botbuilder": "^3.8.4",
+    "restify": "^5.0.1"
+  }
+}
