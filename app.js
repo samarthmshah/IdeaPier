@@ -17,6 +17,30 @@ var connector = new builder.ChatConnector({
 server.post('/api/messages', connector.listen());
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
-var bot = new builder.UniversalBot(connector, function (session) {
-    session.send("You said: %s", session.message.text);
-});
+var bot = new builder.UniversalBot(connector, [
+    (session) => {
+        session.send('Welcome to the IdeaPeer bot.');
+        session.beginDialog('interests');
+    }
+]);
+
+bot.dialog('interests', [
+    (session) => {
+        builder.Prompts.text(session, 'What are your interests?');
+    }, 
+    (session, results) => {
+        session.dialogData.interest = results.response;
+        // search mongo for the interest.
+        // var found = mongo.search.interest(session.dialogData.interest);
+        var found = true;
+        if(found) {
+            session.send("Sweet! Found a channel for you.");
+        } else {
+            session.send("Couldn't find an existing channel.");
+            // create one
+        }
+        session.send('Adding you to the channel: %s', session.dialogData.interest);
+        // insert channel and add channel to users list
+        session.endDialogWithResult(results);
+    }
+]);
