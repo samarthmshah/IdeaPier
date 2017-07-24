@@ -6,10 +6,10 @@ var TopicSchema = new mongoose.Schema({
 
     },
     users: {
-      username: String
+      username: Array
     },
     meetings: {
-      meetingId: Number
+      meetingIds: Array
     }
 });
 

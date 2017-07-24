@@ -8,7 +8,7 @@ function userController () {
     var username = req.params.username;
     var topics = req.params.topics;
     
-    User.create({username:username,topics:topics}, function(err, result) {
+    User.create({username:username, topics:topics}, function(err, result) {
       if (err) {
         console.log(err);
         return res.send({'error':err}); 
