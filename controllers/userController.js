@@ -5,8 +5,8 @@ function userController () {
   
   // Creating New User
   this.createUser = function (req, res, next) {
-    var username = req.params.username;
-    var topics = req.params.topics;
+    var username = req.body.username;
+    var topics = req.body.topics;
     
     User.create({username:username, topics:topics}, function(err, result) {
       if (err) {
