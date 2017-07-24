@@ -1,5 +1,6 @@
 var restify = require('restify');
 var builder = require('botbuilder');
+var strings = require('./helpers/strings.js');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -19,14 +20,14 @@ server.post('/api/messages', connector.listen());
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, [
     (session) => {
-        session.send('Welcome to the IdeaPeer bot.');
+        session.send(strings.getGreeting('Sam'));
         session.beginDialog('interests');
     }
 ]);
 
 bot.dialog('interests', [
     (session) => {
-        builder.Prompts.text(session, 'What are your interests?');
+        builder.Prompts.text(session, strings.interests);
     }, 
     (session, results) => {
         session.dialogData.interest = results.response;
@@ -34,12 +35,12 @@ bot.dialog('interests', [
         // var found = mongo.search.interest(session.dialogData.interest);
         var found = true;
         if(found) {
-            session.send("Sweet! Found a channel for you.");
+            session.send(strings.channelFound);
         } else {
-            session.send("Couldn't find an existing channel.");
+            session.send(strings.channelNotFound);
             // create one
         }
-        session.send('Adding you to the channel: %s', session.dialogData.interest);
+        session.send(strings.addToChannel(session.dialogData.interest));
         // insert channel and add channel to users list
         session.endDialogWithResult(results);
     }
