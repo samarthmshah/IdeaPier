@@ -4,13 +4,14 @@ const tcom = require('thesaurus-com');
 function topicController() {
     const Topic = require('../models/topic');
 
-    // Creating New User
+    // Creating New Topic
     this.createTopic = function (req, res, next) {
         const topic = req.body.topic;
         const user = req.body.user;
         const synonyms = tcom
             .search(topic)
             .synonyms;
+
         return Topic.create({
             topic: topic,
             synonyms: synonyms,
