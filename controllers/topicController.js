@@ -56,7 +56,7 @@ function topicController() {
 
         const topic = input.topic;
         var query = Topic.find( { $or: [{ synonyms: topic }, { topic: topic } ]} );
-        console.log(query);
+        query.select('topic');
         query.exec(function (err, result) {
             if (err) {
                 console.log(err);
@@ -86,6 +86,7 @@ function topicController() {
                 console.log(err);
                 return result;
             } else {
+                console.log(result);
                 return res.send({'topic Details': result});
             }
         });

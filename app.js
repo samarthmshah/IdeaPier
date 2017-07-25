@@ -54,12 +54,21 @@ bot.dialog('interests', [
                 console.log(nouns);
                 session.send("Let me see.");
                 channelNames = [];
+                channelNames.push(topicCtrl.getTopicsBySyn( {"topic": results.response} ));
                 nouns.forEach((noun) => {
                     channelNames = channelNames.concat(topicCtrl.getTopicsBySyn( {"topic": noun} ));
                 });
-                var found = true;
-                if(found) {
-                    session.send(strings.channelFound);
+
+                console.log('channels found ', channelNames);
+                console.log('# of channels found ', channelNames.length);
+                
+                if(channelNames.length > 0) {
+                    if(channelNames.length == 1) {
+                        session.send(strings.channelFound);
+                        
+                    } else {
+
+                    }
                     // Add user to channel
                 } else {
                     session.send(strings.channelNotFound);
