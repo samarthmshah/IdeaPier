@@ -30,8 +30,12 @@ function topicController() {
         });
     };
 
-    // Get all User info
-    this.getTopic = function (req, res, next) {
+    // Get all Topic info
+    this.getTopic = function(params) {
+        getTopicHttp({params:params})
+    };
+    // get all topic info for HTTP
+    this.getTopicHttp = function (req, res, next) {
         const topic = req.params.topic;
 
         Topic.find({
@@ -86,6 +90,27 @@ function topicController() {
             }
         });
     };
+
+    this.addChannelIdForTopic = function (req, res, next) {
+        const channelId = req.body.channelId;
+        const topic = req.body.topic;
+
+        Topic.update({
+            topic: topic
+        },
+        { 
+            $addToSet: { activeChannels: channelId }
+        },
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.send({'error': err});
+            } else {
+                console.log(result);
+                return res.send({'topic Details': result});
+            }
+        });
+    }
 
     return this;
 
