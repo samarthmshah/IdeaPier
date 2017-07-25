@@ -47,8 +47,22 @@ function topicController() {
     };
 
     // get topic by synonym
-    this.getTopicsBySyn = function(params) {
-        getTopicsBySynHttp({params:params})
+    this.getTopicsBySyn = (input) => {
+        console.log('getTopicsBySyn called........');
+
+        const topic = input.topic;
+        var query = Topic.find( { $or: [{ synonyms: topic }, { topic: topic } ]} );
+        console.log(query);
+        query.exec(function (err, result) {
+            if (err) {
+                console.log(err);
+                return err;
+            } else {
+                console.log('Result: ' , result);
+                console.log('successfully executed');
+                return result;
+            }
+        });
     };
 
     // get topic by synonym for HTTP
@@ -66,7 +80,7 @@ function topicController() {
         }, function (err, result) {
             if (err) {
                 console.log(err);
-                return res.send({'error': err});
+                return result;
             } else {
                 return res.send({'topic Details': result});
             }
