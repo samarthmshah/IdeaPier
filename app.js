@@ -75,7 +75,7 @@ bot.dialog('interests', [
                             session.endDialogWithResult(results);
                         } else {
                             session.send(strings.channelNotFound);
-                            session.send(strings.addToChannelQuestion(nounStrings[0]));
+                            session.send(strings.addToChannelQuestion(nounString1[0]));
                             //Add channel and add user to channel
                         }
                         session.send(strings.addToChannel(session.dialogData.interest));
