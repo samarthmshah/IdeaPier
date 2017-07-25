@@ -30,8 +30,12 @@ function topicController() {
         });
     };
 
-    // Get all User info
-    this.getTopic = function (req, res, next) {
+    // Get all Topic info
+    this.getTopic = function(params) {
+        getTopicHttp({params:params})
+    };
+    // get all topic info for HTTP
+    this.getTopicHttp = function (req, res, next) {
         const topic = req.params.topic;
 
         Topic.find({
