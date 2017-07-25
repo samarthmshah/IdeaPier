@@ -5,9 +5,9 @@ module.exports = function(app) {
   app.post('/createUser', user.createUser); 
   app.get('/getUsers', user.getUser);  
 
-  app.post('/createTopic', topic.createTopic);
+  app.post('/createTopic', topic.createTopicHttp);
   app.get('/getTopic/:topic', topic.getTopic);
-  app.get('/getTopicsBySyn/:topic', topic.getTopicsBySyn);
+  app.get('/getTopicsBySyn/:topic', topic.getTopicsBySynHttp);
 
   app.get('/', function(req, res, next) {
     return res.send("WELCOME TO IDEA PIER");
