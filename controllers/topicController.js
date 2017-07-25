@@ -5,7 +5,11 @@ function topicController() {
     const Topic = require('../models/topic');
 
     // Creating New Topic
-    this.createTopic = function (req, res, next) {
+    this.createTopic = function(body){
+        this.createTopicHttp({body:body});
+    }
+    // Creating New Topic for HTTP
+    this.createTopicHttp = function (req, res, next) {
         const topic = req.body.topic;
         const user = req.body.user;
         const synonyms = tcom
@@ -42,7 +46,13 @@ function topicController() {
         });
     };
 
-    this.getTopicsBySyn = function (req, res, next) {
+    // get topic by synonym
+    this.getTopicsBySyn = function(params) {
+        getTopicsBySynHttp({params:params})
+    };
+
+    // get topic by synonym for HTTP
+    this.getTopicsBySynHttp = function (req, res, next) {
         const topic = req.params.topic;
         console.log("arositenarotn", req.params)
         return Topic.find({
