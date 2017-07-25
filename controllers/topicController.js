@@ -18,21 +18,54 @@ function topicController() {
             .search(topic)
             .synonyms;
 
+        Topic.find({topic:topic}, function(err, result){
+            if (result.length == 0) {
+                Topic.create({
+                    topic: topic,
+                    synonyms: synonyms,
+                    users: [user]
+                }, function (err, result) {
+                    if (err) {
+                        console.log(err);
+                        // return res.send({'error': err});
+                    } else {
+                        console.log('success!');
+                        return res.send({'result': result, 'status': 'successfully saved'});
+                    }
+                });
+            } else {
+                console.log('topic already exists');
+                User.update({username: user}, {
+                    $addToSet: {topics: topic}
+                    }, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        // return res.send({'error': err});
+                    } else {
+                        console.log(result);
+                        // return  res.send({'user Details': result});
+                    }
+                    });
+
+                Topic.update(
+                    {topic: topic}, 
+                    {$addToSet: {users: user}},
+                    (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        return res.send({'error': err});
+                    } else {
+                        console.log(result);
+                        return  res.send({'user Details': result});
+                    }
+        
+                });
+            }
+        });
         // TO-DO check to see if topic exists - if it does, add the user to the topic and the topic to the user.  IF it does not, create the topic and add the user.
 
         
-        return Topic.create({
-            topic: topic,
-            synonyms: synonyms,
-            users: [user]
-        }, function (err, result) {
-            if (err) {
-                console.log(err);
-                return res.send({'error': err});
-            } else {
-                return res.send({'result': result, 'status': 'successfully saved'});
-            }
-        });
+        
     };
 
     // Get all Topic info
