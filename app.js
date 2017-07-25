@@ -2,6 +2,8 @@ var restify = require('restify');
 var config = require('./config');
 var builder = require('botbuilder');
 var strings = require('./helpers/strings.js');
+var WordPOS = require('wordpos'),
+    wordpos = new WordPOS();
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -44,17 +46,44 @@ bot.dialog('interests', [
     }, 
     (session, results) => {
         session.dialogData.interest = results.response;
-        // search mongo for the interest.
-        // var found = mongo.search.interest(session.dialogData.interest);
-        var found = true;
-        if(found) {
-            session.send(strings.channelFound);
-        } else {
-            session.send(strings.channelNotFound);
-            // create one
-        }
-        session.send(strings.addToChannel(session.dialogData.interest));
-        // insert channel and add channel to users list
-        session.endDialogWithResult(results);
+        if(results.response) {
+            if(results.response.split(" ").length <= 1) {
+                wordpos.isNoun(results.response, (noun) => {
+                    if (noun) {
+                        // Search channel/add channel
+                        session.send(strings.addToChannel(results.response));
+                        session.endDialogWithResult(results);
+                    } else {
+                        session.send(strings.cannotUnderstand);                        
+                    }
+                })
+            } else {
+                wordpos.getNouns(results.response, (nouns) => {                         
+                    if(nouns.length > 0) {
+                        var nounString1 = "";
+                        nouns.forEach((noun) => {
+                            nounString1 = nounString1 + " " + noun;
+                        });
+
+                        session.send("Let me see."); 
+                        session.send(nounString1);
+                        // Search channel/add channel
+                        var found = true;
+                        if(found) {
+                            session.send(strings.channelFound);
+                            // Add user to channel
+                            session.endDialogWithResult(results);
+                        } else {
+                            session.send(strings.channelNotFound);
+                            session.send(strings.addToChannelQuestion(nounString1[0]));
+                            //Add channel and add user to channel
+                        }
+                        session.send(strings.addToChannel(session.dialogData.interest));
+                    } else {
+                        session.send(strings.cannotUnderstand);
+                    }
+                });
+            }
+        }                        
     }
 ]);
