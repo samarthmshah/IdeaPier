@@ -1,11 +1,11 @@
 module.exports = {
-    getGreeting: firstName => `Hi ${firstName}. Welcome to the IdeaPeer bot.`,
-    addToChannel: channel => `Adding you to the channel: ${channel}`,
-    interests: `What are your interests?`,
-    channelFound: `Sweet! Found a channel for you.`,
-    channelNotFound: `Couldn't find an existing channel.`,
-    addToChannelQuestion: channel => `Would you like for me to add you to channel ${channel}?`,
-    cannotUnderstand: `Sorry, I'm having tough time understanding. Could you repeat your interest?`,
+    getGreeting: firstName => `ello ${firstName}. My name is Pierre.`,
+    addToChannel: channel => `I ave added you to the ${channel} channel`,
+    interests: `Ere is how I can elp you. What are you interested in?`,
+    channelFound: `Excellent! I ave found a channel foer you.`,
+    channelNotFound: `I don't ave a channel for this topic`,
+    addToChannelQuestion: channel => `Would you like for me to add you to the ${channel} channel?`,
+    cannotUnderstand: `Excuse moi, I'm aving trouble understanding. Could you please say again?`,
     // add other greeting and strings here with name annd topic params
     // TODO add synonym finder here
 };
