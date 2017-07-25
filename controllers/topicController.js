@@ -1,8 +1,10 @@
 // all functionalities of a Topic
+
 const tcom = require('thesaurus-com');
 
 function topicController() {
     const Topic = require('../models/topic');
+    const User = require('./userController');
 
     // Creating New Topic
     this.createTopic = function(body){
@@ -75,6 +77,12 @@ function topicController() {
                 return res.send({'topic Details': result});
             }
         });
+    };
+
+    this.addTopicToUser = function(userID, topicID) {
+        User.findById(userID, function(){
+            
+        })
     };
 
     return this;
