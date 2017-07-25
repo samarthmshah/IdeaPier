@@ -3,15 +3,18 @@ var config = require('./config');
 var builder = require('botbuilder');
 var strings = require('./helpers/strings.js');
 var WordPOS = require('wordpos'),
-    wordpos = new WordPOS();
+
+wordpos = new WordPOS();
 
 // Setup Restify Server
 var server = restify.createServer();
 var bodyParser = require('restify-plugins').bodyParser;
 var fullRes = require('restify-plugins').fullResponse;
 var queryParser = require('restify-plugins').queryParser;
-var builder = require('botbuilder');
- 
+
+var topicCtrl = require('./controllers/topicController.js');
+
+
 server.use(fullRes());
 server.use(bodyParser());
 server.use(queryParser());
@@ -47,43 +50,30 @@ bot.dialog('interests', [
     (session, results) => {
         session.dialogData.interest = results.response;
         if(results.response) {
-            if(results.response.split(" ").length <= 1) {
-                wordpos.isNoun(results.response, (noun) => {
-                    if (noun) {
-                        // Search channel/add channel
-                        session.send(strings.addToChannel(results.response));
-                        session.endDialogWithResult(results);
-                    } else {
-                        session.send(strings.cannotUnderstand);                        
-                    }
-                })
-            } else {
-                wordpos.getNouns(results.response, (nouns) => {                         
-                    if(nouns.length > 0) {
-                        var nounString1 = "";
-                        nouns.forEach((noun) => {
-                            nounString1 = nounString1 + " " + noun;
-                        });
-
-                        session.send("Let me see."); 
-                        session.send(nounString1);
-                        // Search channel/add channel
-                        var found = true;
-                        if(found) {
-                            session.send(strings.channelFound);
-                            // Add user to channel
-                            session.endDialogWithResult(results);
-                        } else {
-                            session.send(strings.channelNotFound);
-                            session.send(strings.addToChannelQuestion(nounString1[0]));
-                            //Add channel and add user to channel
-                        }
-                        session.send(strings.addToChannel(session.dialogData.interest));
-                    } else {
-                        session.send(strings.cannotUnderstand);
-                    }
+            wordpos.getNouns(results.response, (nouns) => {  
+                console.log(nouns);
+                session.send("Let me see.");
+                channelNames = [];
+                nouns.forEach((noun) => {
+                    channelNames = channelNames.concat(topicCtrl.getTopicsBySyn( {"topic": noun} ));
                 });
-            }
-        }                        
+                var found = true;
+                if(found) {
+                    session.send(strings.channelFound);
+                    // Add user to channel
+                } else {
+                    session.send(strings.channelNotFound);
+                    session.send(strings.addToChannelQuestion(nounString1[0]));
+                    //Add channel and add user to channel
+                }
+            //             session.send(strings.addToChannel(session.dialogData.interest));
+            //         } else {
+            //             session.send(strings.cannotUnderstand);
+            //         }
+            });    
+        } else {
+            session.send("Please write someting"); 
+        }
+        session.endDialogWithResult(results);                  
     }
 ]);
