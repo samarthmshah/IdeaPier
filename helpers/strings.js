@@ -6,6 +6,4 @@ module.exports = {
     channelNotFound: `I don't ave a channel for this topic`,
     addToChannelQuestion: channel => `Would you like for me to add you to the ${channel} channel?`,
     cannotUnderstand: `Excuse moi, I'm aving trouble understanding. Could you please say again?`,
-    // add other greeting and strings here with name annd topic params
-    // TODO add synonym finder here
 };

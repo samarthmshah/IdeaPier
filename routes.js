@@ -8,6 +8,7 @@ module.exports = function(app) {
   app.post('/createTopic', topic.createTopicHttp);
   app.get('/getTopic/:topic', topic.getTopicHttp);
   app.get('/getTopicsBySyn/:topic', topic.getTopicsBySynHttp);
+  app.put('/addChannel', topic.addChannelIdForTopic);
 
   app.get('/', function(req, res, next) {
     return res.send("WELCOME TO IDEA PIER");
