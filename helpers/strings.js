@@ -1,5 +1,5 @@
 module.exports = {
-    getGreeting: firstName => Bonjour ${firstName}. My name is Pierre.`,
+    getGreeting: firstName => `Bonjour ${firstName}. My name is Pierre.`,
     addToChannel: channel => `I have added you to the ${channel} channel`,
     interests: `Here is how I can help you. What are you interested in?`,
     channelFound: `Excellent! I have found a channel for you.`,
