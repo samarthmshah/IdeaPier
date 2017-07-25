@@ -6,8 +6,8 @@ module.exports = function(app) {
   app.get('/getUsers', user.getUser);  
 
   app.post('/createTopic', topic.createTopic);
-  app.get('/getTopic', topic.getTopic);
-  app.get('./getTopicsBySyn', topic.getTopicsBySyn);
+  app.get('/getTopic/:topic', topic.getTopic);
+  app.get('/getTopicsBySyn/:topic', topic.getTopicsBySyn);
 
   app.get('/', function(req, res, next) {
     return res.send("WELCOME TO IDEA PIER");

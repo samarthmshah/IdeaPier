@@ -27,7 +27,7 @@ function topicController() {
 
     // Get all User info
     this.getTopic = function (req, res, next) {
-        const topic = req.body.topic;
+        const topic = req.params.topic;
 
         Topic.find({
             topic: topic
@@ -42,10 +42,16 @@ function topicController() {
     };
 
     this.getTopicsBySyn = function (req, res, next) {
-        const topic = req.body.topic;
-
+        const topic = req.params.topic;
+        console.log("arositenarotn", req.params)
         return Topic.find({
-            syns: topic
+            $or: [
+                {
+                    synonyms: topic
+                }, {
+                    topic: topic
+                }
+            ]
         }, function (err, result) {
             if (err) {
                 console.log(err);
